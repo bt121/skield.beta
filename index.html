@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>skield.beta - Badge Generator (2005)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        a {
+            color: #0000cc;
+            text-decoration: underline;
+        }
+
+        a:visited {
+            color: #551a8b;
+        }
+
+        a:active {
+            color: #ff0000;
+        }
+
+        .g-header-box {
+            background-color: #c3d9ff;
+            border-top: 1px solid #3366cc;
+            font-weight: bold;
+            color: #000000;
+            padding: 3px 6px;
+        }
+
+        .g-panel {
+            background-color: #e5ecf9;
+            border: 1px solid #c3d9ff;
+        }
+
+        .g-sponsored-panel {
+            background-color: #ffffee;
+            border: 1px solid #e2e2a8;
+        }
+
+        .g-input {
+            border: 1px solid #7f9db9;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            padding: 2px 4px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .g-input:focus {
+            outline: 1px solid #3366cc;
+        }
+
+        .g-button {
+            background-color: #f2f2f2;
+            border: 1px solid #7f9db9;
+            color: #000000;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            padding: 2px 8px;
+            cursor: pointer;
+        }
+
+        .g-button:hover {
+            border-color: #3366cc;
+            background-color: #e8e8e8;
+        }
+
+        .g-button:active {
+            background-color: #cccccc;
+        }
+
+        .g-logo-g1 { color: #0039a6; }
+        .g-logo-o1 { color: #d62d20; }
+        .g-logo-o2 { color: #ffa700; }
+        .g-logo-g2 { color: #0039a6; }
+        .g-logo-l  { color: #008744; }
+        .g-logo-e  { color: #d62d20; }
+
+        .g-url {
+            color: #008000;
+            font-size: 11px;
+        }
+
+        .g-snippet-tab {
+            background-color: #f0f0f0;
+            border: 1px solid #999999;
+            border-bottom: none;
+            padding: 2px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-right: 2px;
+        }
+
+        .g-snippet-tab.active {
+            background-color: #ffffff;
+            font-weight: bold;
+            border-top: 2px solid #3366cc;
+        }
+
+        .code-font {
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-2">
+
+    <div>
+        <div class="flex items-center justify-between text-xs border-b border-[#3366cc] pb-1 mb-3">
+            <div class="flex space-x-3 font-bold">
+                <span class="bg-[#3366cc] text-white px-2 py-0.5 font-bold">Badges</span>
+                <a href="https://shields.io" target="_blank">Web</a>
+                <a href="https://simpleicons.org" target="_blank">Images & Icons</a>
+                <a href="https://github.com" target="_blank">Groups / Repos</a>
+            </div>
+            <div class="text-right text-[11px]">
+                <b>skield.beta</b> | <a href="#" id="pref-btn">Badge Preferences</a> | <a href="#" onclick="alert('skield.beta (2005 Edition)\nCustom badge builder powered by Shields.io'); return false;">Sign in</a>
+            </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto my-3 text-center">
+            <div class="text-4xl sm:text-5xl font-bold tracking-tight mb-2 select-none" style="font-family: Georgia, serif;">
+                <span class="g-logo-g1">s</span><span class="g-logo-o1">k</span><span class="g-logo-o2">i</span><span class="g-logo-g2">e</span><span class="g-logo-l">l</span><span class="g-logo-e">d</span><span class="text-gray-600">.</span><span class="g-logo-o1">b</span><span class="g-logo-o2">e</span><span class="g-logo-g2">t</span><span class="g-logo-l">a</span>
+                <span class="text-xs font-sans text-gray-500 tracking-normal align-top font-normal">™ (2005)</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-2xl mx-auto my-2">
+                <div class="w-full flex items-center">
+                    <input type="text" id="main-search-input" placeholder="Type badge message (e.g. passing, v1.0, MIT)..." class="g-input w-full py-1 px-2 text-sm shadow-inner">
+                </div>
+                <div class="flex space-x-2 shrink-0">
+                    <button id="main-generate-btn" class="g-button font-bold">Google Search / Generate</button>
+                    <button id="lucky-btn" class="g-button">I'm Feeling Lucky</button>
+                </div>
+            </div>
+
+            <div class="text-[11px] text-gray-600">
+                Search over 1,330,000,000 badge configurations across the open source web.
+            </div>
+        </div>
+
+        <div class="bg-[#e5ecf9] border-t border-b border-[#3366cc] px-3 py-1 my-3 flex items-center justify-between text-xs">
+            <div>
+                Results <b>1</b> - <b>10</b> of about <b>1,420,000</b> for <b id="query-term">badge</b>. (<b>0.04</b> seconds)
+            </div>
+            <div class="text-[11px]">
+                <a href="#" id="clear-all-link">Clear search terms</a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 max-w-[1600px] mx-auto">
+
+            <div class="lg:col-span-3 space-y-3">
+                <div class="g-panel">
+                    <div class="g-header-box">Refine Badge Parameters</div>
+                    <div class="p-2 space-y-3">
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">Left Label:</label>
+                            <input type="text" id="input-label" value="build" class="g-input w-full">
+                            <span class="text-[10px] text-gray-500">e.g. build, version, license</span>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">Right Message <span class="text-red-600">*</span>:</label>
+                            <input type="text" id="input-message" value="passing" class="g-input w-full">
+                            <span class="text-[10px] text-gray-500">Main text displayed</span>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">Target Link URL:</label>
+                            <input type="text" id="input-link" placeholder="https://github.com/user/repo" class="g-input w-full">
+                        </div>
+
+                        <hr class="border-[#c3d9ff]">
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">Message Color:</label>
+                            <div class="flex space-x-1">
+                                <input type="text" id="input-color" value="4c1" class="g-input w-full code-font">
+                                <input type="color" id="picker-color" value="#44cc11" class="w-6 h-6 p-0 border border-gray-400 cursor-pointer">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">Label Background Color:</label>
+                            <div class="flex space-x-1">
+                                <input type="text" id="input-label-color" value="555" class="g-input w-full code-font">
+                                <input type="color" id="picker-label-color" value="#555555" class="w-6 h-6 p-0 border border-gray-400 cursor-pointer">
+                            </div>
+                        </div>
+
+                        <hr class="border-[#c3d9ff]">
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">Badge Style:</label>
+                            <select id="select-style" class="g-input w-full">
+                                <option value="flat">Flat (Classic Standard)</option>
+                                <option value="flat-square">Flat Square</option>
+                                <option value="for-the-badge">For The Badge</option>
+                                <option value="plastic">Plastic (Bevelled)</option>
+                                <option value="social">Social Button</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">SimpleIcon Slug:</label>
+                            <input type="text" id="input-logo" value="github" class="g-input w-full">
+                            <span class="text-[10px] text-gray-500">github, react, python, etc.</span>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-[11px] mb-0.5">Icon Color:</label>
+                            <div class="flex space-x-1">
+                                <input type="text" id="input-logo-color" value="white" class="g-input w-full code-font">
+                                <input type="color" id="picker-logo-color" value="#ffffff" class="w-6 h-6 p-0 border border-gray-400 cursor-pointer">
+                            </div>
+                        </div>
+
+                        <div class="pt-2 text-center">
+                            <button id="reset-btn" class="g-button w-full">Reset All Fields</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 space-y-3">
+                <div class="border border-[#c3d9ff] p-3 bg-white">
+                    <div class="text-base font-normal mb-1">
+                        <a href="#" id="badge-title-link" class="text-[#0000cc] underline font-bold text-sm">
+                            Build Status &mdash; Shields.io Badge Result
+                        </a>
+                    </div>
+
+                    <div class="g-url mb-2" id="display-url-line">
+                        https://img.shields.io/badge/build-passing-4c1.svg
+                    </div>
+
+                    <div class="p-4 bg-[#f9f9f9] border border-[#e5e5e5] my-2 text-center relative flex flex-col items-center justify-center min-h-[110px]">
+                        <div id="badge-wrapper" class="my-2">
+                            <img id="badge-preview" src="" alt="Badge Preview" class="inline-block max-w-full">
+                        </div>
+                        <div id="loading-indicator" class="hidden text-xs text-gray-500 italic">
+                            [ Fetching image from img.shields.io... ]
+                        </div>
+                    </div>
+
+                    <div class="text-[11px] text-gray-600 mt-2 flex flex-wrap gap-3 border-t border-gray-200 pt-2">
+                        <button id="download-svg-btn" class="g-button font-bold text-[#0000cc]">
+                            Download SVG Badge
+                        </button>
+                        <a href="#" id="open-new-tab-link" class="self-center">Open Image Direct</a>
+                        <span class="text-gray-400">|</span>
+                        <a href="#" id="cached-link">Cached</a>
+                        <a href="#" id="similar-link">Similar Badges</a>
+                    </div>
+                </div>
+
+                <div class="g-panel">
+                    <div class="g-header-box">Google Badge Directory / Quick Presets</div>
+                    <div class="p-2 flex flex-wrap gap-1.5" id="presets-container">
+                    </div>
+                </div>
+
+                <div class="border border-[#7f9db9] bg-white">
+                    <div class="bg-[#e5ecf9] border-b border-[#7f9db9] px-2 py-1 flex items-center justify-between">
+                        <span class="font-bold text-xs text-[#000000]">Code Embed Generator</span>
+                        <span class="text-[10px] text-gray-600">Copy & Paste into document</span>
+                    </div>
+
+                    <div class="pt-2 px-2 bg-[#f4f4f4] border-b border-[#cccccc] flex" id="snippet-tabs">
+                        <div class="g-snippet-tab active" data-format="markdown">Markdown</div>
+                        <div class="g-snippet-tab" data-format="html">HTML</div>
+                        <div class="g-snippet-tab" data-format="url">Direct URL</div>
+                        <div class="g-snippet-tab" data-format="rest">reST</div>
+                    </div>
+
+                    <div class="p-2">
+                        <textarea id="code-output" readonly rows="3" class="code-font w-full border border-[#7f9db9] p-2 text-xs bg-[#ffffef] text-black focus:outline-none"></textarea>
+                        
+                        <div class="mt-2 flex items-center justify-between">
+                            <button id="copy-snippet-btn" class="g-button font-bold">
+                                Copy Snippet to Clipboard
+                            </button>
+                            <span id="copy-status" class="text-xs text-green-700 font-bold hidden">
+                                Copied!
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-3 space-y-3">
+                <div class="g-sponsored-panel p-2">
+                    <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 text-right">
+                        Sponsored Links
+                    </div>
+
+                    <div class="space-y-2 border-t border-[#e2e2a8] pt-2">
+                        <div>
+                            <a href="https://shields.io" target="_blank" class="font-bold text-xs">Shields.io Official API</a>
+                            <p class="text-[11px] text-gray-700 leading-tight">
+                                Quality metadata badges for open source projects. Free SVG service.
+                            </p>
+                            <span class="g-url">www.shields.io</span>
+                        </div>
+
+                        <div>
+                            <a href="https://simpleicons.org" target="_blank" class="font-bold text-xs">Simple Icons Library</a>
+                            <p class="text-[11px] text-gray-700 leading-tight">
+                                Over 3,000 Free SVG brand logos for developer tools & tech stack.
+                            </p>
+                            <span class="g-url">www.simpleicons.org</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="g-panel">
+                    <div class="g-header-box">Google Color Palette</div>
+                    <div class="p-2 grid grid-cols-2 gap-1 text-[11px]" id="color-swatches">
+                    </div>
+                </div>
+
+                <div class="g-panel">
+                    <div class="g-header-box">Popular Icons Directory</div>
+                    <div class="p-2 space-y-2">
+                        <input type="text" id="icon-search" placeholder="Filter icons..." class="g-input w-full text-xs">
+                        <div class="grid grid-cols-2 gap-1 max-h-[180px] overflow-y-auto" id="icons-grid">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="mt-8 border-t border-[#cccccc] pt-3 pb-4 text-center text-xs text-gray-700 space-y-2">
+        <div class="flex items-center justify-center space-x-4">
+            <a href="https://shields.io" target="_blank">Shields.io Homepage</a>
+            <span>-</span>
+            <a href="https://github.com" target="_blank">Developer Repositories</a>
+            <span>-</span>
+            <a href="https://simpleicons.org" target="_blank">Simple Icons</a>
+            <span>-</span>
+            <a href="#" onclick="alert('skield.beta Search Engine (2005)'); return false;">About skield.beta</a>
+        </div>
+        <div class="text-[11px] text-gray-500">
+            &copy;2005 Google - skield.beta - <a href="#">Privacy Policy</a> - <a href="#">Terms of Service</a>
+        </div>
+    </footer>
+
+    <script>
+        const GOOGLE_SWATCHES = [
+            { name: 'G-Blue', hex: '0039a6', display: 'Google Blue' },
+            { name: 'G-Red', hex: 'd62d20', display: 'Google Red' },
+            { name: 'G-Yellow', hex: 'ffa700', display: 'Google Yellow' },
+            { name: 'G-Green', hex: '008744', display: 'Google Green' },
+            { name: 'Dark', hex: '555555', display: 'Classic Slate' },
+            { name: 'Bright Green', hex: '4c1', display: 'Passing Green' }
+        ];
+
+        const POPULAR_ICONS = [
+            'github', 'react', 'python', 'javascript', 'typescript', 'node.js',
+            'docker', 'rust', 'tailwindcss', 'next.js', 'vue.js', 'go',
+            'html5', 'css3', 'linux', 'aws', 'postgresql', 'figma'
+        ];
+
+        const PRESETS = [
+            { title: 'build: passing', left: 'build', right: 'passing', color: '4c1', logo: 'github' },
+            { title: 'version: 1.0.0', left: 'version', right: 'v1.0.0', color: '0039a6', logo: '' },
+            { title: 'license: MIT', left: 'license', right: 'MIT', color: '008744', logo: '' },
+            { title: 'React: v18', left: 'React', right: 'v18.2', color: '20232a', labelColor: '61dafb', logo: 'react', logoColor: '61dafb' },
+            { title: 'Python: 3.11', left: 'Python', right: '3.11', color: '3776ab', logo: 'python', logoColor: 'white' },
+            { title: 'Tailwind: v3', left: 'Tailwind', right: 'v3.0', color: '06b6d4', logo: 'tailwindcss', logoColor: 'white' }
+        ];
+
+        const mainSearchInput = document.getElementById('main-search-input');
+        const mainGenerateBtn = document.getElementById('main-generate-btn');
+        const luckyBtn = document.getElementById('lucky-btn');
+        const queryTerm = document.getElementById('query-term');
+
+        const inputLabel = document.getElementById('input-label');
+        const inputMessage = document.getElementById('input-message');
+        const inputLink = document.getElementById('input-link');
+        const inputColor = document.getElementById('input-color');
+        const pickerColor = document.getElementById('picker-color');
+        const inputLabelColor = document.getElementById('input-label-color');
+        const pickerLabelColor = document.getElementById('picker-label-color');
+        const selectStyle = document.getElementById('select-style');
+        const inputLogo = document.getElementById('input-logo');
+        const inputLogoColor = document.getElementById('input-logo-color');
+        const pickerLogoColor = document.getElementById('picker-logo-color');
+
+        const badgePreview = document.getElementById('badge-preview');
+        const displayUrlLine = document.getElementById('display-url-line');
+        const badgeTitleLink = document.getElementById('badge-title-link');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const codeOutput = document.getElementById('code-output');
+        const copySnippetBtn = document.getElementById('copy-snippet-btn');
+        const copyStatus = document.getElementById('copy-status');
+        const iconSearch = document.getElementById('icon-search');
+
+        let currentBadgeUrl = '';
+        let currentActiveFormat = 'markdown';
+
+        function cleanText(text) {
+            if (!text) return '';
+            return text.trim().replace(/_/g, '__').replace(/-/g, '--').replace(/ /g, '_');
+        }
+
+        function initSidebarTools() {
+            const presetsContainer = document.getElementById('presets-container');
+            presetsContainer.innerHTML = '';
+            PRESETS.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'g-button text-[11px]';
+                btn.textContent = p.title;
+                btn.addEventListener('click', () => applyPreset(p));
+                presetsContainer.appendChild(btn);
+            });
+
+            const swatchesContainer = document.getElementById('color-swatches');
+            swatchesContainer.innerHTML = '';
+            GOOGLE_SWATCHES.forEach(s => {
+                const btn = document.createElement('button');
+                btn.className = 'g-button flex items-center space-x-1 justify-start w-full';
+                btn.innerHTML = `<span class="w-2.5 h-2.5 inline-block border border-black shrink-0" style="background-color: #${s.hex}"></span><span class="truncate">${s.display}</span>`;
+                btn.addEventListener('click', () => {
+                    inputColor.value = s.hex;
+                    pickerColor.value = `#${s.hex.length === 6 ? s.hex : '44cc11'}`;
+                    updateBadge();
+                });
+                swatchesContainer.appendChild(btn);
+            });
+
+            renderIconsList(POPULAR_ICONS);
+        }
+
+        function renderIconsList(icons) {
+            const iconsGrid = document.getElementById('icons-grid');
+            iconsGrid.innerHTML = '';
+            if (icons.length === 0) {
+                iconsGrid.innerHTML = `<span class="text-[10px] text-gray-500 col-span-2">No icons found</span>`;
+                return;
+            }
+            icons.forEach(icon => {
+                const btn = document.createElement('button');
+                btn.className = 'g-button text-left truncate text-[10px]';
+                btn.textContent = icon;
+                btn.addEventListener('click', () => {
+                    inputLogo.value = icon;
+                    updateBadge();
+                });
+                iconsGrid.appendChild(btn);
+            });
+        }
+
+        iconSearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const filtered = POPULAR_ICONS.filter(i => i.toLowerCase().includes(query));
+            if (query && !filtered.includes(query)) {
+                filtered.unshift(query);
+            }
+            renderIconsList(filtered);
+        });
+
+        function applyPreset(p) {
+            inputLabel.value = p.left || '';
+            inputMessage.value = p.right || '';
+            inputColor.value = p.color || '4c1';
+            inputLabelColor.value = p.labelColor || '';
+            inputLogo.value = p.logo || '';
+            inputLogoColor.value = p.logoColor || '';
+            selectStyle.value = 'flat';
+            updateBadge();
+        }
+
+        function updateBadge() {
+            const label = cleanText(inputLabel.value);
+            const message = cleanText(inputMessage.value || 'badge');
+            const color = inputColor.value.trim().replace('#', '');
+            const labelColor = inputLabelColor.value.trim().replace('#', '');
+            const style = selectStyle.value;
+            const logo = inputLogo.value.trim();
+            const logoColor = inputLogoColor.value.trim().replace('#', '');
+
+            let baseUrl = 'https://img.shields.io/badge/';
+            if (label) {
+                baseUrl += `${encodeURIComponent(label)}-${encodeURIComponent(message)}`;
+            } else {
+                baseUrl += `${encodeURIComponent(message)}`;
+            }
+
+            baseUrl += color ? `-${encodeURIComponent(color)}` : `-007acc`;
+
+            const params = new URLSearchParams();
+            if (style && style !== 'flat') params.append('style', style);
+            if (labelColor) params.append('labelColor', labelColor);
+            if (logo) params.append('logo', logo);
+            if (logoColor) params.append('logoColor', logoColor);
+
+            const queryString = params.toString();
+            currentBadgeUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+
+            displayUrlLine.textContent = currentBadgeUrl;
+            document.getElementById('open-new-tab-link').href = currentBadgeUrl;
+            document.getElementById('open-new-tab-link').target = '_blank';
+            document.getElementById('cached-link').href = currentBadgeUrl;
+            document.getElementById('cached-link').target = '_blank';
+            document.getElementById('similar-link').href = `https://shields.io/#/examples`;
+            document.getElementById('similar-link').target = '_blank';
+
+            const titleText = label ? `${inputLabel.value} : ${inputMessage.value}` : inputMessage.value;
+            badgeTitleLink.textContent = `${titleText || 'Badge'} — Shields.io Search Result`;
+            queryTerm.textContent = titleText || 'badge';
+
+            loadingIndicator.classList.remove('hidden');
+            badgePreview.src = currentBadgeUrl;
+
+            renderCodeOutput();
+        }
+
+        function renderCodeOutput() {
+            const altText = inputLabel.value ? `${inputLabel.value} - ${inputMessage.value}` : (inputMessage.value || 'Badge');
+            const linkUrl = inputLink.value.trim();
+
+            if (currentActiveFormat === 'markdown') {
+                codeOutput.value = linkUrl 
+                    ? `[![${altText}](${currentBadgeUrl})](${linkUrl})` 
+                    : `![${altText}](${currentBadgeUrl})`;
+            } else if (currentActiveFormat === 'html') {
+                codeOutput.value = linkUrl 
+                    ? `<a href="${linkUrl}"><img src="${currentBadgeUrl}" alt="${altText}" /></a>` 
+                    : `<img src="${currentBadgeUrl}" alt="${altText}" />`;
+            } else if (currentActiveFormat === 'url') {
+                codeOutput.value = currentBadgeUrl;
+            } else if (currentActiveFormat === 'rest') {
+                codeOutput.value = linkUrl 
+                    ? `.. image:: ${currentBadgeUrl}\n   :target: ${linkUrl}\n   :alt: ${altText}` 
+                    : `.. image:: ${currentBadgeUrl}\n   :alt: ${altText}`;
+            }
+        }
+
+        mainGenerateBtn.addEventListener('click', () => {
+            if (mainSearchInput.value.trim()) {
+                inputMessage.value = mainSearchInput.value.trim();
+                updateBadge();
+            }
+        });
+
+        mainSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                mainGenerateBtn.click();
+            }
+        });
+
+        luckyBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * PRESETS.length);
+            applyPreset(PRESETS[randomIndex]);
+        });
+
+        document.querySelectorAll('.g-snippet-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                currentActiveFormat = e.target.getAttribute('data-format');
+                document.querySelectorAll('.g-snippet-tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                renderCodeOutput();
+            });
+        });
+
+        copySnippetBtn.addEventListener('click', () => {
+            if (codeOutput.value) {
+                codeOutput.select();
+                document.execCommand('copy');
+
+                copyStatus.classList.remove('hidden');
+                setTimeout(() => {
+                    copyStatus.classList.add('hidden');
+                }, 2000);
+            }
+        });
+
+        badgePreview.addEventListener('load', () => loadingIndicator.classList.add('hidden'));
+        badgePreview.addEventListener('error', () => loadingIndicator.classList.add('hidden'));
+
+        pickerColor.addEventListener('input', (e) => {
+            inputColor.value = e.target.value.replace('#', '');
+            updateBadge();
+        });
+        pickerLabelColor.addEventListener('input', (e) => {
+            inputLabelColor.value = e.target.value.replace('#', '');
+            updateBadge();
+        });
+        pickerLogoColor.addEventListener('input', (e) => {
+            inputLogoColor.value = e.target.value.replace('#', '');
+            updateBadge();
+        });
+
+        [inputLabel, inputMessage, inputLink, inputColor, inputLabelColor, inputLogo, inputLogoColor].forEach(input => {
+            input.addEventListener('input', updateBadge);
+        });
+        selectStyle.addEventListener('change', updateBadge);
+
+        document.getElementById('download-svg-btn').addEventListener('click', async () => {
+            try {
+                const response = await fetch(currentBadgeUrl);
+                const svgBlob = await response.blob();
+                const blobUrl = URL.createObjectURL(svgBlob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `google-badge-${Date.now()}.svg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(blobUrl);
+            } catch (err) {
+                window.open(currentBadgeUrl, '_blank');
+            }
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', () => applyPreset(PRESETS[0]));
+        document.getElementById('clear-all-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            inputLabel.value = '';
+            inputMessage.value = 'badge';
+            inputLink.value = '';
+            inputLogo.value = '';
+            updateBadge();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initSidebarTools();
+            applyPreset(PRESETS[0]);
+        });
+    </script>
+</body>
+</html>
