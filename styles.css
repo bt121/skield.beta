@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>skield.beta — Badge Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">s</div>
+          <div>
+            <p class="brand-name">skield.beta</p>
+            <p class="brand-tag">Badge studio</p>
+          </div>
+        </div>
+        <button id="randomizeBtn" class="secondary-btn">Randomize</button>
+      </header>
+
+      <main class="layout">
+        <section class="panel controls">
+          <h1>Build a badge</h1>
+
+          <div class="field-row two-up">
+            <label>
+              <span>Label</span>
+              <input id="labelInput" type="text" value="build" />
+            </label>
+            <label>
+              <span>Message</span>
+              <input id="messageInput" type="text" value="passing" />
+            </label>
+          </div>
+
+          <div class="field-row two-up">
+            <label>
+              <span>Left color</span>
+              <input id="leftColor" type="color" value="#2ea043" />
+            </label>
+            <label>
+              <span>Right color</span>
+              <input id="rightColor" type="color" value="#0e4429" />
+            </label>
+          </div>
+
+          <div class="field-row two-up">
+            <label>
+              <span>Style</span>
+              <select id="styleSelect">
+                <option value="flat">Flat</option>
+                <option value="flat-square">Flat square</option>
+                <option value="plastic">Plastic</option>
+                <option value="for-the-badge">For the badge</option>
+              </select>
+            </label>
+            <label>
+              <span>Logo</span>
+              <input id="logoInput" type="text" value="github" placeholder="github, npm, python..." />
+            </label>
+          </div>
+
+          <div class="field-row two-up">
+            <label>
+              <span>Label text color</span>
+              <input id="labelTextColor" type="color" value="#ffffff" />
+            </label>
+            <label>
+              <span>Message text color</span>
+              <input id="messageTextColor" type="color" value="#ffffff" />
+            </label>
+          </div>
+
+          <div class="field-row">
+            <label>
+              <span>Badge URL</span>
+              <input id="urlOutput" type="text" readonly />
+            </label>
+          </div>
+        </section>
+
+        <section class="panel preview-panel">
+          <div class="preview-header">
+            <h2>Live preview</h2>
+            <button id="copyMarkdownBtn" class="primary-btn">Copy Markdown</button>
+          </div>
+
+          <div class="badge-stage">
+            <img id="badgePreview" alt="Generated badge preview" />
+          </div>
+
+          <div class="snippet-box">
+            <p>Markdown</p>
+            <textarea id="markdownOutput" readonly rows="4"></textarea>
+          </div>
+
+          <div class="snippet-box">
+            <p>HTML</p>
+            <textarea id="htmlOutput" readonly rows="4"></textarea>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

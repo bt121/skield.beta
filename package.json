@@ -1,0 +1,131 @@
+const labelInput = document.getElementById('labelInput');
+const messageInput = document.getElementById('messageInput');
+const leftColorInput = document.getElementById('leftColor');
+const rightColorInput = document.getElementById('rightColor');
+const styleSelect = document.getElementById('styleSelect');
+const logoInput = document.getElementById('logoInput');
+const labelTextColor = document.getElementById('labelTextColor');
+const messageTextColor = document.getElementById('messageTextColor');
+
+const badgePreview = document.getElementById('badgePreview');
+const urlOutput = document.getElementById('urlOutput');
+const markdownOutput = document.getElementById('markdownOutput');
+const htmlOutput = document.getElementById('htmlOutput');
+
+const randomizeBtn = document.getElementById('randomizeBtn');
+const copyMarkdownBtn = document.getElementById('copyMarkdownBtn');
+
+function randomHex() {
+  const chars = '0123456789ABCDEF';
+  let hex = '#';
+  for (let i = 0; i < 6; i += 1) {
+    hex += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return hex;
+}
+
+function createShieldUrl({
+  label,
+  message,
+  leftColor,
+  rightColor,
+  style,
+  logo,
+  labelText,
+  messageText,
+}) {
+  const params = new URLSearchParams({
+    label: label.trim() || 'badge',
+    message: message.trim() || 'ready',
+    color: `${leftColor.replace('#', '')}-${rightColor.replace('#', '')}`,
+    style,
+    labelColor: labelText.replace('#', ''),
+    colorA: leftColor.replace('#', ''),
+    colorB: rightColor.replace('#', ''),
+    logo: logo.trim() || '',
+    logoColor: 'white',
+  });
+
+  return `https://img.shields.io/badge/${encodeURIComponent(label)}-${encodeURIComponent(message)}-${leftColor.replace('#', '')}-${rightColor.replace('#', '')}?style=${style}${logo ? `&logo=${encodeURIComponent(logo)}` : ''}&labelColor=${labelText.replace('#', '')}&colorA=${leftColor.replace('#', '')}&colorB=${rightColor.replace('#', '')}`;
+}
+
+function buildBadgeUrl() {
+  const label = labelInput.value.trim();
+  const message = messageInput.value.trim();
+  const leftColor = leftColorInput.value;
+  const rightColor = rightColorInput.value;
+  const style = styleSelect.value;
+  const logo = logoInput.value.trim();
+  const labelText = labelTextColor.value;
+  const messageText = messageTextColor.value;
+
+  const url = `https://img.shields.io/badge/${encodeURIComponent(label || 'build')}-${encodeURIComponent(message || 'passing')}-${leftColor.replace('#', '')}-${rightColor.replace('#', '')}?style=${style}${logo ? `&logo=${encodeURIComponent(logo)}` : ''}&labelColor=${labelText.replace('#', '')}&colorA=${leftColor.replace('#', '')}&colorB=${rightColor.replace('#', '')}`;
+
+  badgePreview.src = url;
+  urlOutput.value = url;
+
+  const markdown = `![${label || 'build'}](https://img.shields.io/badge/${encodeURIComponent(label || 'build')}-${encodeURIComponent(message || 'passing')}-${leftColor.replace('#', '')}-${rightColor.replace('#', '')}?style=${style}${logo ? `&logo=${encodeURIComponent(logo)}` : ''}&labelColor=${labelText.replace('#', '')}&colorA=${leftColor.replace('#', '')}&colorB=${rightColor.replace('#', '')})`;
+
+  markdownOutput.value = markdown;
+  htmlOutput.value = `<img alt="${label || 'build'}" src="${url}" />`;
+  return url;
+}
+
+function randomizeBadge() {
+  labelInput.value = ['build', 'docs', 'stable', 'deploy', 'status', 'tests'][Math.floor(Math.random() * 6)];
+  messageInput.value = ['passing', 'ready', 'live', 'updated', 'good', 'success'][Math.floor(Math.random() * 6)];
+  leftColorInput.value = randomHex();
+  rightColorInput.value = randomHex();
+  labelTextColor.value = '#ffffff';
+  messageTextColor.value = '#ffffff';
+  styleSelect.value = ['flat', 'flat-square', 'plastic', 'for-the-badge'][Math.floor(Math.random() * 4)];
+  logoInput.value = ['github', 'npm', 'python', 'nodejs', 'docker', 'vite'][Math.floor(Math.random() * 6)];
+  buildBadgeUrl();
+}
+
+[randomizeBtn, labelInput, messageInput, leftColorInput, rightColorInput, styleSelect, logoInput, labelTextColor, messageTextColor].forEach((element) => {
+  element.addEventListener('input', buildBadgeUrl);
+  element.addEventListener('change', buildBadgeUrl);
+});
+
+copyMarkdownBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(markdownOutput.value);
+    copyMarkdownBtn.textContent = 'Copied!';
+    setTimeout(() => {
+      copyMarkdownBtn.textContent = 'Copy Markdown';
+    }, 1200);
+  } catch (error) {
+    console.error('Clipboard copy failed', error);
+  }
+});
+
+buildBadgeUrl();
+randomizeBtn.click();
+
+window.addEventListener('DOMContentLoaded', () => {
+  buildBadgeUrl();
+});
+
+for (const key of ['labelInput', 'messageInput']) {
+  document.getElementById(key).addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      buildBadgeUrl();
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
