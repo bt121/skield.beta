@@ -30,12 +30,6 @@ A badge studio for creating beautiful, shield.io-style badges in seconds.
 
 Open `index.html` directly in a browser, or serve the project with any static file server:
 
-```bash
-python -m http.server 8000
-```
-
-Then visit `http://localhost:8000`.
-
 ## Roadmap
 
 - badge templates
