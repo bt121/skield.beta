@@ -33,10 +33,8 @@ Open `index.html` directly in a browser, or serve the project with any static fi
 ## Roadmap
 
 - badge templates
-- dark mode / light mode presets
 - logo support
 - downloadable PNG/SVG exports
-- saved presets and custom themes
 
 ## License
 
